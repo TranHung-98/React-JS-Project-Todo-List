@@ -1,0 +1,139 @@
+$color: #8c2dfa;
+$bg-primary: #0d6efd;
+$bg-light: #e8e8e8;
+$bg-warning: #ffc107;
+$bg-success: #198754;
+$border: 1.2px solid #6F74F7;
+$box-shadow:
+  0 6px 10px 0 rgba(51, 51, 51, 0.2),
+  0 0px 5px 0 rgba(51, 51, 51, 0.19);
+  $text-color: #ffffff;
+
+* {
+  outline: none;
+  border: none;
+  background-color: #282c34;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 15vmin;
+  margin-top: 15px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  min-width: 1200px;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.d-flex {
+  width: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.w-20 {
+  width: 30%;
+}
+
+button[type="submit"],
+button[type="button"] {
+  margin-right: 10px;
+  padding: 10px 25px;
+}
+
+.form-group {
+  width: 100%;
+  height: 100%;
+}
+
+.text-color {
+  color:$text-color ;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 15px;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.navbar {
+  width: 30%;
+  margin: 0 auto;
+  @extend .App-header;
+  min-height: 0;
+  padding-bottom: 20px;
+  flex-direction: row;
+}
+
+.list-foocter {
+ @extend .App-header;
+ width: 30%;
+ margin: 0 auto;
+  background-color: #976FF7;
+}
+
+.modal {
+  display: none;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.box-shadow {
+  box-shadow: $box-shadow;
+}
+
+.border {
+  border: $border;
+}
+
+.border-radius {
+  border-radius: 5px;
+}
+
+.bg-warning {
+  background-color: $bg-warning;
+}
+
+.bg-light {
+  background-color: $bg-light;
+}
+
+.bg-primary {
+  background-color: $bg-primary;
+}
+
+.bg-success {
+  background-color: $bg-success;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
