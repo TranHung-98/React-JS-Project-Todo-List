@@ -23,7 +23,7 @@ export  function SelectFilter () {
 <div className="form-group">
       <select className="form-control  text-color border-radius border">
         <option value="Filter">Filter</option>
-        <option value="All">All</option>
+        <option value="">All</option>
         <option value="Completed">Completed</option>
         <option value="Not Started">Not Started</option>
         <option value="In Progress">In Progress</option>

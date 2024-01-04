@@ -14,7 +14,7 @@ export function Button() {
 export function ButtonDelete () {
 
   return(
-    <button type="button" className="text-color bg-success border-radius">Delete</button>
+    <button type="button" className="text-color bg-success border-radius" disabled>Delete</button>
   )
 
 }

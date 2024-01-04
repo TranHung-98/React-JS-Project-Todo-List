@@ -3,11 +3,11 @@ $bg-primary: #0d6efd;
 $bg-light: #e8e8e8;
 $bg-warning: #ffc107;
 $bg-success: #198754;
-$border: 1.2px solid #6F74F7;
+$border: 1.2px solid #6f74f7;
 $box-shadow:
   0 6px 10px 0 rgba(51, 51, 51, 0.2),
   0 0px 5px 0 rgba(51, 51, 51, 0.19);
-  $text-color: #ffffff;
+$text-color: #ffffff;
 
 * {
   outline: none;
@@ -32,20 +32,21 @@ $box-shadow:
 }
 
 .App-header {
-  min-width: 1200px;
-  min-height: 10vh;
   display: flex;
-  flex-direction: column;
+  color: white;
+  min-width: 1200px;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .d-flex {
   width: 55%;
   display: flex;
+  color: #333;
   align-items: center;
+  background-color: transparent;
   justify-content: space-between;
 }
 
@@ -55,8 +56,11 @@ $box-shadow:
 
 button[type="submit"],
 button[type="button"] {
-  margin-right: 10px;
+  cursor: pointer;
+  margin-right: 15px;
   padding: 10px 25px;
+  border-radius: 5px;
+  background-color:#dedede;
 }
 
 .form-group {
@@ -65,7 +69,7 @@ button[type="button"] {
 }
 
 .text-color {
-  color:$text-color ;
+  color: $text-color;
 }
 
 .form-control {
@@ -82,20 +86,25 @@ button[type="button"] {
   margin: 0 auto;
   @extend .App-header;
   min-height: 0;
+  font-size: 1rem;
   padding-bottom: 20px;
   flex-direction: row;
 }
 
 .list-foocter {
- @extend .App-header;
- width: 30%;
- margin: 0 auto;
-  background-color: #976FF7;
+  @extend .App-header;
+  width: 30%;
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #976ff7;
 }
 
 .modal {
   display: none;
+  position: relative;
 }
+
 
 @keyframes App-logo-spin {
   from {
@@ -104,6 +113,66 @@ button[type="button"] {
   to {
     transform: rotate(360deg);
   }
+}
+
+.bg-white.flex {
+  .flex.fix {
+    width: 20%;
+    justify-content: space-evenly;
+    input[type="text"] {
+      display: none;
+    }
+  }
+}
+
+.bg-white.flex {
+  .flex.fix {
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+div.text-left {
+  text-align: left;
+  background-color: transparent !important;
+}
+
+#list {
+  width: 100%;
+  height: 430px;
+  overflow: auto;
+  font-size: 1.2rem;
+  background-color: transparent;
+}
+
+.icon-click {
+  color: #0d6efd;
+  background-color: transparent;
+}
+
+.bg-white.flex {
+  margin: 10px 0;
+  border-radius: 6px;
+}
+
+.remove-edit {
+background-color: transparent
+}
+
+.flex {
+  @extend .d-flex;
+  width: 100%;
+}
+
+.fix {
+  width: 25%;
+}
+
+p {
+  margin: 10px 5px;
+  background-color: transparent !important;
 }
 
 .box-shadow {
@@ -119,21 +188,21 @@ button[type="button"] {
 }
 
 .bg-warning {
-  background-color: $bg-warning;
+  background-color: $bg-warning !important;
 }
 
 .bg-light {
-  background-color: $bg-light;
+  background-color: $bg-light !important;
 }
 
 .bg-primary {
-  background-color: $bg-primary;
+  background-color: $bg-primary !important;
 }
 
 .bg-success {
-  background-color: $bg-success;
+  background-color: $bg-success !important;
 }
 
 .bg-white {
-  background-color: #ffffff;
+  background-color: #ffffff !important;
 }
