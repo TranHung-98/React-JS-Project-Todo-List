@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.scss';
 import Modal from '../components/modal';
-import { Button, ButtonDelete } from '../components/button';
+import { Button, ButtonDelete, ButtonSelectAll } from '../components/button';
 import { SelectFilter } from '../components/Select';
 import FormInput from '../components/FormImput';
 import React, { Component } from 'react';
@@ -22,11 +22,14 @@ class App extends Component {
 
   state = {
     todoData: [],
-    show: false
+    show: false,
+    allChecked: false,
+    isDeleteEnabled: false,
+    filter: '',
   }
 
   componentDidMount = () => {
-    // Fetch data from the API
+
     fetch("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List")
       .then((response) => {
         if (!response.ok) {
@@ -35,34 +38,62 @@ class App extends Component {
         return response.json();
       })
       .then((data) => {
-        // Update state with fetched data
-        this.setState({ todoData: data });
+
+        const formattedTodoData = data.map((todoItem) => ({
+          ...todoItem,
+          date: new Date(todoItem.date).toLocaleString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          }),
+        }));
+        // Update state with formatted data
+        this.setState({
+          todoData:formattedTodoData
+        });
+
+        console.log(formattedTodoData)
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   };
 
+  handleAddTaskClick = () => {
+    this.setState({ show: true });
+  };
+
+
+  handleChangeFilter = (event) => {
+    this.setState({
+      filter: event.target.value,
+    });
+  };
+
   render() {
 
-    const { todoData } = this.state;
+    const { todoData, show,filter ,isDeleteEnabled } = this.state;
 
     return (
       <>
         <div className="App ">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h1> TDO LIST</h1>
+            <h1> TODO LIST</h1>
           </header>
           <nav className='d-flex navbar'>
             <div>
-              <Button />
+              <Button onClick={this.handleAddTaskClick} />
+              <ButtonSelectAll />
             </div>
             <div className='d-flex w-20'>
-              <div>
-                <ButtonDelete />
+              <div className=''>
+                <ButtonDelete isEnabled={isDeleteEnabled} />
               </div>
-              <SelectFilter />
+              <SelectFilter value={filter} onChange={this.handleChangeFilter} />
             </div>
           </nav>
           <footer className='list-foocter border-radius' >
@@ -71,19 +102,20 @@ class App extends Component {
                 todoData.map((todoItem) => (
                   <FormInput
                     key={todoItem.id}
-                    checkboxValue={todoItem.status === "status 1"}
-                    title={todoItem.name}
-                    date={new Date(todoItem.createdAt * 1000).toLocaleString()}
+                    id={todoItem.id}
+                    title={todoItem.todo}
+                    date={todoItem.date}
+                    status={todoItem.status}
                     inputValue={todoItem.todo}
                   />
                 ))
               ) : (
-                <p>Không có dữ liệu</p>
+                <p>Không có dữ liệu!</p>
               )}
             </div>
           </footer>
         </div>
-        <Modal />
+        {show && <Modal onClose={() => this.setState({ show: false })} />}
       </>
     );
 
