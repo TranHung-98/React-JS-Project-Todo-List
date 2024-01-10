@@ -32,6 +32,7 @@ export class ButtonAdd extends React.Component {
 export class  ButtonDelete extends React.Component {
 
   render() {
+
     return (
       <button
         type="button"

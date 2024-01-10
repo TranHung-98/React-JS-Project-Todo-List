@@ -54,10 +54,9 @@ class App extends Component {
 
         // Update state with formatted data
         this.setState({
-          todoData:formattedTodoData
+          todoData: formattedTodoData
         });
 
-        console.log(formattedTodoData)
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -76,9 +75,37 @@ class App extends Component {
   };
 
 
+  handleClickDelete = (todo) => {
+      this.deleteTodo(todo);
+  }
+
+
+  deleteTodo = (todo) => {
+    const todoList = this.state.todoData;
+
+    this.setState({
+      todoData: todoList.filter(item => item.id !== todo.id)
+    });
+
+
+    fetch(`https://658af354ba789a9622383629.mockapi.io/api/ToDo-List/${todo.id}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log('Todo deleted successfully on the server');
+      })
+      .catch(error => {
+        console.error('Error deleting todo on the server:', error);
+      });
+  }
+
+
   render() {
 
-    const { todoData, show,filter ,isDeleteEnabled } = this.state;
+    const { todoData, show, filter } = this.state;
 
     return (
       <>
@@ -102,7 +129,7 @@ class App extends Component {
           <footer className='list-foocter border-radius' >
             <div id='list'>
               {todoData.length > 0 ? (
-                todoData.map((todoItem) => (
+                todoData.map((todoItem, index) => (
                   <FormInput
                     key={todoItem.id}
                     id={todoItem.id}
@@ -110,6 +137,7 @@ class App extends Component {
                     date={todoItem.date}
                     status={todoItem.status}
                     inputValue={todoItem.todo}
+                    onClickDelete={() => this.handleClickDelete(todoItem)}
                   />
                 ))
               ) : (
