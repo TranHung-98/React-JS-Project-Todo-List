@@ -29,16 +29,19 @@ export class ButtonAdd extends React.Component {
   }
 }
 
-export function ButtonDelete({ isEnabled }) {
-  return (
-    <button
-      type="button"
-      className="text-color bg-success border-radius"
-      disabled={!isEnabled}
-    >
-      Delete
-    </button>
-  );
+export class  ButtonDelete extends React.Component {
+
+  render() {
+    return (
+      <button
+        type="button"
+        className="text-color bg-success border-radius"
+      >
+        Delete
+      </button>
+    );
+  }
+
 }
 
 export function ButtonSelectAll() {

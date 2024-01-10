@@ -18,6 +18,7 @@ import React, { Component } from 'react';
  * Compponent là 1 function và class
  */
 
+
 class App extends Component {
 
   state = {
@@ -50,6 +51,7 @@ class App extends Component {
             hour12: true,
           }),
         }));
+
         // Update state with formatted data
         this.setState({
           todoData:formattedTodoData
@@ -73,6 +75,7 @@ class App extends Component {
     });
   };
 
+
   render() {
 
     const { todoData, show,filter ,isDeleteEnabled } = this.state;
@@ -91,7 +94,7 @@ class App extends Component {
             </div>
             <div className='d-flex w-20'>
               <div className=''>
-                <ButtonDelete isEnabled={isDeleteEnabled} />
+                <ButtonDelete />
               </div>
               <SelectFilter value={filter} onChange={this.handleChangeFilter} />
             </div>
