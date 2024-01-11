@@ -23,22 +23,24 @@ import 'react-toastify/dist/ReactToastify.css';
 
 class App extends Component {
 
+
   state = {
     todoData: [],
     show: false,
     allChecked: false,
     isDeleteEnabled: false,
     filter: '',
+    checkedItems: {},
   }
 
-
+  // Tạo mới todolist k cần load trang
   addNewTodoToList = (newTodo) => {
     this.setState((prevState) => ({
       todoData: [...prevState.todoData, newTodo],
     }));
-    console.log(newTodo);
   };
 
+  // ================= Call Add data ================= //
   componentDidMount = () => {
 
     fetch("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List")
@@ -69,10 +71,11 @@ class App extends Component {
           todoData:formattedTodoData,
         })
       })
+
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  };
+  }; // End call add
 
 
   handleAddTaskClick = () => {
@@ -88,17 +91,33 @@ class App extends Component {
 
 
   handleClickDelete = (todo) => {
-      this.deleteTodo(todo);
-  }
+      this.deleteATodo(todo);
+  };
 
 
-  deleteTodo = (todo) => {
+  handleCheckedOnEnableRemove = (id) => {
+    this.setState((prevState) => {
+      const checkedItems = { ...prevState.checkedItems };
+
+      if (prevState.checkedItems && prevState.checkedItems[id] !== undefined) {
+        checkedItems[id] = !prevState.checkedItems[id];
+      } else {
+        checkedItems[id] = true;
+      }
+
+      return { checkedItems };
+    });
+
+  };
+
+
+  // =================  Delete by id  call  ================= //
+  deleteATodo = (todo) => {
     const todoList = this.state.todoData;
 
     this.setState({
       todoData: todoList.filter(item => item.id !== todo.id)
     });
-
 
     fetch(`https://658af354ba789a9622383629.mockapi.io/api/ToDo-List/${todo.id}`, {
       method: 'DELETE',
@@ -110,14 +129,16 @@ class App extends Component {
         toast.success("Delete Successfully!")
       })
       .catch(error => {
-        console.error('Error deleting todo on the server:', error);
+        toast.error('Deletion unsuccessful!');
       });
-  }
+  }; // End Call delete
+
+
 
 
   render() {
 
-    const { todoData, show, filter } = this.state;
+    const { todoData, show, filter, checkedItems} = this.state;
 
     return (
       <>
@@ -165,10 +186,12 @@ class App extends Component {
                     status={todoItem.status}
                     inputValue={todoItem.todo}
                     onClickDelete={() => this.handleClickDelete(todoItem)}
+                    checked={!!checkedItems[todoItem.id]}
+                    onCheckChange={() => this.handleCheckedOnEnableRemove(todoItem.id)}
                   />
                 ))
               ) : (
-                <p>Không có dữ liệu!</p>
+                  <p className='empty-data'>Không có dữ liệu!</p>
               )}
             </div>
           </footer>
@@ -180,9 +203,12 @@ class App extends Component {
       </>
     );
 
-  }
+  };
 
 }
 
 
+
 export default App;
+
+

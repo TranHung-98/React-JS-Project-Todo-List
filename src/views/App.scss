@@ -21,6 +21,10 @@ $text-color: #ffffff;
 
 .App {
   text-align: center;
+   .empty-data {
+    font-size: 1.6rem;
+    color: #3A3FF2;
+  }
 }
 
 .App-logo {
@@ -87,6 +91,10 @@ button[type="button"]:enabled {
 
 button[type="button"]:enabled i.fa-solid {
   color: #ffffff;
+}
+
+button.text-color.bg-success.border-radius {
+    width: 109px;
 }
 
 .form-group {

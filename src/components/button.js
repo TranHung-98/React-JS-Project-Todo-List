@@ -38,7 +38,7 @@ export class  ButtonDelete extends React.Component {
         type="button"
         className="text-color bg-success border-radius"
       >
-        Delete
+        Delete All
       </button>
     );
   }

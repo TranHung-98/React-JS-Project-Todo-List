@@ -103,13 +103,11 @@ class Modal extends React.Component {
           })
 
           data.date = formattedDate;
-
           this.props.addNewTodoToList(data);
           toast.success("Add Successfully!")
-
         })
-        .catch((error) => {
-          console.error("Error adding data:", error);
+        .catch(() => {
+          toast.error('Edd is unsuccessfully!');
         });
 
       // Đóng modal sau khi gửi dữ liệu lên
@@ -118,7 +116,6 @@ class Modal extends React.Component {
     }
 
   };
-
 
 
 
