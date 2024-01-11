@@ -5,6 +5,8 @@ import { Button, ButtonDelete, ButtonSelectAll } from '../components/button';
 import { SelectFilter } from '../components/Select';
 import FormInput from '../components/FormImput';
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -29,15 +31,25 @@ class App extends Component {
     filter: '',
   }
 
+
+  addNewTodoToList = (newTodo) => {
+    this.setState((prevState) => ({
+      todoData: [...prevState.todoData, newTodo],
+    }));
+    console.log(newTodo);
+  };
+
   componentDidMount = () => {
 
     fetch("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List")
+
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         return response.json();
       })
+
       .then((data) => {
 
         const formattedTodoData = data.map((todoItem) => ({
@@ -50,18 +62,18 @@ class App extends Component {
             minute: '2-digit',
             hour12: true,
           }),
+
         }));
 
-        // Update state with formatted data
         this.setState({
-          todoData: formattedTodoData
-        });
-
+          todoData:formattedTodoData,
+        })
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   };
+
 
   handleAddTaskClick = () => {
     this.setState({ show: true });
@@ -95,7 +107,7 @@ class App extends Component {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        console.log('Todo deleted successfully on the server');
+        toast.success("Delete Successfully!")
       })
       .catch(error => {
         console.error('Error deleting todo on the server:', error);
@@ -116,9 +128,24 @@ class App extends Component {
           </header>
           <nav className='d-flex navbar'>
             <div>
-              <Button onClick={this.handleAddTaskClick} />
+              <Button
+              onClick={this.handleAddTaskClick}
+               />
               <ButtonSelectAll />
             </div>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            <ToastContainer />
             <div className='d-flex w-20'>
               <div className=''>
                 <ButtonDelete />
@@ -146,7 +173,10 @@ class App extends Component {
             </div>
           </footer>
         </div>
-        {show && <Modal onClose={() => this.setState({ show: false })} />}
+        {show && <Modal
+        onClose={() => this.setState({ show: false })}
+          addNewTodoToList={this.addNewTodoToList}
+        />}
       </>
     );
 

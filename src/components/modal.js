@@ -1,6 +1,7 @@
 import React from "react";
 import { Select } from "./Select";
 import { ButtonAdd } from "./button";
+import { toast } from 'react-toastify';
 
 
 class Modal extends React.Component {
@@ -16,6 +17,7 @@ class Modal extends React.Component {
       status: '',
     },
   };
+
 
   handleCloseModal = () => {
     this.setState({ closeModal: true });
@@ -52,6 +54,7 @@ class Modal extends React.Component {
     });
   };
 
+
   handleSubmit = () => {
     const { todo, date, status } = this.state;
 
@@ -75,7 +78,6 @@ class Modal extends React.Component {
     this.setState({ errors });
 
     if (Object.keys(errors).length === 0) {
-      // The rest of your code remains unchanged
       // Gửi dữ liệu lên server
       fetch("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List", {
         method: "POST",
@@ -90,10 +92,21 @@ class Modal extends React.Component {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Xử lý phản hồi từ server nếu cần
-          console.log("Data added successfully:", data);
-          // eslint-disable-next-line no-restricted-globals
-          location.reload();
+
+         let formattedDate = new Date(data.date).toLocaleString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          })
+
+          data.date = formattedDate;
+
+          this.props.addNewTodoToList(data);
+          toast.success("Add Successfully!")
+
         })
         .catch((error) => {
           console.error("Error adding data:", error);
@@ -102,14 +115,15 @@ class Modal extends React.Component {
       // Đóng modal sau khi gửi dữ liệu lên
       this.handleCloseModal();
 
-      this.handleCloseModal();
     }
 
   };
 
 
+
+
   render() {
-    const { closeModal, todo, date,status,errors } = this.state;
+    const { closeModal, todo, date,status,errors} = this.state;
 
     return (
       <>
@@ -119,7 +133,7 @@ class Modal extends React.Component {
               <div className="modal-header">
                 <div className="d-flex">
                   <h5 className="modal-title">Add Row</h5>
-                  <p onClick={this.handleCloseModal}>&times;</p>
+                  <p onClick={this.handleCloseModal} className="close">&times;</p>
                 </div>
               </div>
               <div className="modal-body">
@@ -148,11 +162,14 @@ class Modal extends React.Component {
                 </div>
                 <Select
                 value={status} onChange={this.handleChangeStatus}
-                  errors={errors.status}
+                errors={errors.status}
                 />
               </div>
               <div className="modal-footer">
-                <ButtonAdd onClick={this.handleSubmit} />
+                <ButtonAdd
+                onClick={this.handleSubmit}
+                addNewTodoList = {() =>this.addNewTodoList()}
+                />
               </div>
             </div>
           </div>
