@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export class Button extends React.Component {
   render() {
     return (
@@ -29,20 +28,14 @@ export class ButtonAdd extends React.Component {
   }
 }
 
-export class  ButtonDelete extends React.Component {
-
+export class ButtonDelete extends React.Component {
   render() {
-
     return (
-      <button
-        type="button"
-        className="text-color bg-success border-radius"
-      >
-        Delete All
+      <button type="button" className="text-color bg-success border-radius">
+        Delete
       </button>
     );
   }
-
 }
 
 export function ButtonSelectAll() {
@@ -52,5 +45,3 @@ export function ButtonSelectAll() {
     </button>
   );
 }
-
-

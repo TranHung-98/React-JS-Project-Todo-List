@@ -21,9 +21,9 @@ $text-color: #ffffff;
 
 .App {
   text-align: center;
-   .empty-data {
+  .empty-data {
     font-size: 1.6rem;
-    color: #3A3FF2;
+    color: #3a3ff2;
   }
 }
 
@@ -94,7 +94,7 @@ button[type="button"]:enabled i.fa-solid {
 }
 
 button.text-color.bg-success.border-radius {
-    width: 109px;
+  width: 109px;
 }
 
 .form-group {
@@ -117,11 +117,8 @@ button.text-color.bg-success.border-radius {
 }
 
 .navbar {
-  width: 30%;
   margin: 0 auto;
   @extend .App-header;
-  min-height: 0;
-  font-size: 1rem;
   padding-bottom: 20px;
   flex-direction: row;
 }
@@ -131,7 +128,7 @@ button.text-color.bg-success.border-radius {
   width: 30%;
   margin: 0 auto;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: calc(10px + 2vmin);
   background-color: #976ff7;
 }
 
@@ -189,6 +186,12 @@ label {
   }
 }
 
+.form-control {
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+}
+
 h5.modal-title {
   margin: 10px 0;
   color: #333;
@@ -223,6 +226,13 @@ input[type="datetime-local"] {
     input[type="text"] {
       display: none;
     }
+    .todo-show {
+      .form-input {
+        input[type="text"] {
+          display: block;
+        }
+      }
+    }
   }
 }
 
@@ -243,7 +253,7 @@ div.text-left {
   width: 100%;
   max-height: 450px;
   overflow: auto;
-  font-size: 1.2rem;
+  font-size: calc(10px + 2vmin);
 }
 
 .icon-click {

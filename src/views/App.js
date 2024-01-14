@@ -1,14 +1,12 @@
-import logo from './logo.svg';
-import './App.scss';
-import Modal from '../components/modal';
-import { Button, ButtonDelete, ButtonSelectAll } from '../components/button';
-import { SelectFilter } from '../components/Select';
-import FormInput from '../components/FormImput';
-import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import logo from "./logo.svg";
+import "./App.scss";
+import Modal from "../components/modal";
+import { Button, ButtonDelete, ButtonSelectAll } from "../components/button";
+import { SelectFilter } from "../components/Select";
+import FormInput from "../components/FormImput";
+import React, { Component } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /**
  * 2 component:
@@ -20,18 +18,17 @@ import 'react-toastify/dist/ReactToastify.css';
  * Compponent là 1 function và class
  */
 
-
 class App extends Component {
-
-
   state = {
     todoData: [],
     show: false,
     allChecked: false,
     isDeleteEnabled: false,
-    filter: '',
+    filter: "",
     checkedItems: {},
-  }
+    editTodo: {},
+    isEditing: false,
+  };
 
   // Tạo mới todolist k cần load trang
   addNewTodoToList = (newTodo) => {
@@ -40,11 +37,17 @@ class App extends Component {
     }));
   };
 
+  handleEditTodo = (todo) => {
+    console.log("handleEditTodo >>>>>>>>", todo);
+    this.setState({
+      editedTodo: { ...todo, id: todo.id },
+      isEditing: true,
+    });
+  };
+
   // ================= Call Add data ================= //
   componentDidMount = () => {
-
     fetch("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List")
-
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -53,23 +56,21 @@ class App extends Component {
       })
 
       .then((data) => {
-
         const formattedTodoData = data.map((todoItem) => ({
           ...todoItem,
-          date: new Date(todoItem.date).toLocaleString('en-US', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
+          date: new Date(todoItem.date).toLocaleString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
             hour12: true,
           }),
-
         }));
 
         this.setState({
-          todoData:formattedTodoData,
-        })
+          todoData: formattedTodoData,
+        });
       })
 
       .catch((error) => {
@@ -77,11 +78,9 @@ class App extends Component {
       });
   }; // End call add
 
-
   handleAddTaskClick = () => {
     this.setState({ show: true });
   };
-
 
   handleChangeFilter = (event) => {
     this.setState({
@@ -89,11 +88,9 @@ class App extends Component {
     });
   };
 
-
   handleClickDelete = (todo) => {
-      this.deleteATodo(todo);
+    this.deleteATodo(todo);
   };
-
 
   handleCheckedOnEnableRemove = (id) => {
     this.setState((prevState) => {
@@ -107,38 +104,36 @@ class App extends Component {
 
       return { checkedItems };
     });
-
   };
-
 
   // =================  Delete by id  call  ================= //
   deleteATodo = (todo) => {
     const todoList = this.state.todoData;
 
     this.setState({
-      todoData: todoList.filter(item => item.id !== todo.id)
+      todoData: todoList.filter((item) => item.id !== todo.id),
     });
 
-    fetch(`https://658af354ba789a9622383629.mockapi.io/api/ToDo-List/${todo.id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
+    fetch(
+      `https://658af354ba789a9622383629.mockapi.io/api/ToDo-List/${todo.id}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
-        toast.success("Delete Successfully!")
+        toast.success("Delete Successfully!");
       })
-      .catch(error => {
-        toast.error('Deletion unsuccessful!');
+      .catch((error) => {
+        toast.error("Deletion unsuccessful!");
       });
   }; // End Call delete
 
-
-
-
   render() {
-
-    const { todoData, show, filter, checkedItems} = this.state;
+    const { todoData, show, filter, checkedItems, isEditing, editedTodo } =
+      this.state;
 
     return (
       <>
@@ -147,36 +142,21 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1> TODO LIST</h1>
           </header>
-          <nav className='d-flex navbar'>
+          <nav className="d-flex navbar">
             <div>
-              <Button
-              onClick={this.handleAddTaskClick}
-               />
+              <Button onClick={this.handleAddTaskClick} />
               <ButtonSelectAll />
             </div>
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />
-            <ToastContainer />
-            <div className='d-flex w-20'>
-              <div className=''>
+            <div className="d-flex w-20">
+              <div className="">
                 <ButtonDelete />
               </div>
               <SelectFilter value={filter} onChange={this.handleChangeFilter} />
             </div>
           </nav>
-          <footer className='list-foocter border-radius' >
-            <div id='list'>
-              {todoData.length > 0 ? (
+          <footer className="list-foocter border-radius">
+            <div id="list">
+              {todoData.length > 0 && todoData ? (
                 todoData.map((todoItem, index) => (
                   <FormInput
                     key={todoItem.id}
@@ -187,28 +167,41 @@ class App extends Component {
                     inputValue={todoItem.todo}
                     onClickDelete={() => this.handleClickDelete(todoItem)}
                     checked={!!checkedItems[todoItem.id]}
-                    onCheckChange={() => this.handleCheckedOnEnableRemove(todoItem.id)}
+                    onCheckChange={() =>
+                      this.handleCheckedOnEnableRemove(todoItem.id)
+                    }
+                    editTodo={() => this.handleEditTodo(todoItem)}
+                    isEditing={isEditing}
+                    editedTodo={editedTodo}
                   />
                 ))
               ) : (
-                  <p className='empty-data'>Không có dữ liệu!</p>
+                <p className="empty-data">Không có dữ liệu!</p>
               )}
             </div>
           </footer>
         </div>
-        {show && <Modal
-        onClose={() => this.setState({ show: false })}
-          addNewTodoToList={this.addNewTodoToList}
-        />}
+        {show && (
+          <Modal
+            onClose={() => this.setState({ show: false })}
+            addNewTodoToList={this.addNewTodoToList}
+          />
+        )}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </>
     );
-
-  };
-
+  }
 }
 
-
-
 export default App;
-
-

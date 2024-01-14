@@ -1,23 +1,20 @@
 import React from "react";
 import { Select } from "./Select";
 import { ButtonAdd } from "./button";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 class Modal extends React.Component {
-
   state = {
     closeModal: false,
-    todo: '',
-    date: '',
-    status:'',
+    todo: "",
+    date: "",
+    status: "",
     errors: {
-      todo: '',
-      date: '',
-      status: '',
+      todo: "",
+      date: "",
+      status: "",
     },
   };
-
 
   handleCloseModal = () => {
     this.setState({ closeModal: true });
@@ -29,7 +26,7 @@ class Modal extends React.Component {
       todo: event.target.value,
       errors: {
         ...this.state.errors,
-        todo: '',
+        todo: "",
       },
     });
   };
@@ -39,7 +36,7 @@ class Modal extends React.Component {
       date: event.target.value,
       errors: {
         ...this.state.errors,
-        date: '',
+        date: "",
       },
     });
   };
@@ -49,11 +46,10 @@ class Modal extends React.Component {
       status: event.target.value,
       errors: {
         ...this.state.errors,
-        status: '',
+        status: "",
       },
     });
   };
-
 
   handleSubmit = () => {
     const { todo, date, status } = this.state;
@@ -61,17 +57,17 @@ class Modal extends React.Component {
     let errors = {};
 
     if (!todo.trim()) {
-      errors.todo = 'Todo is required';
+      errors.todo = "Todo is required";
     }
 
     // Validate date
     if (!date) {
-      errors.date = 'Date is required';
+      errors.date = "Date is required";
     }
 
     // Validate status
     if (!status) {
-      errors.status = 'Status is required';
+      errors.status = "Status is required";
     }
 
     // Update state with errors
@@ -92,35 +88,30 @@ class Modal extends React.Component {
       })
         .then((response) => response.json())
         .then((data) => {
-
-         let formattedDate = new Date(data.date).toLocaleString('en-US', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
+          let formattedDate = new Date(data.date).toLocaleString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
             hour12: true,
-          })
+          });
 
           data.date = formattedDate;
           this.props.addNewTodoToList(data);
-          toast.success("Add Successfully!")
+          toast.success("Add Successfully!");
         })
         .catch(() => {
-          toast.error('Edd is unsuccessfully!');
+          toast.error("Edd is unsuccessfully!");
         });
 
       // Đóng modal sau khi gửi dữ liệu lên
       this.handleCloseModal();
-
     }
-
   };
 
-
-
   render() {
-    const { closeModal, todo, date,status,errors} = this.state;
+    const { closeModal, todo, date, status, errors } = this.state;
 
     return (
       <>
@@ -130,7 +121,9 @@ class Modal extends React.Component {
               <div className="modal-header">
                 <div className="d-flex">
                   <h5 className="modal-title">Add Row</h5>
-                  <p onClick={this.handleCloseModal} className="close">&times;</p>
+                  <p onClick={this.handleCloseModal} className="close">
+                    &times;
+                  </p>
                 </div>
               </div>
               <div className="modal-body">
@@ -142,7 +135,7 @@ class Modal extends React.Component {
                     placeholder="Java and level"
                     value={todo}
                     onChange={this.handleChangeTodo}
-                    style={{ border: errors.todo ? '1px solid red' : '' }}
+                    style={{ border: errors.todo ? "1px solid red" : "" }}
                   />
                   <span className="error-message">{errors.todo}</span>
                 </div>
@@ -153,19 +146,20 @@ class Modal extends React.Component {
                     type="datetime-local"
                     value={date}
                     onChange={this.handleChangeDate}
-                    style={{ border: errors.date ? '1px solid red' : '' }}
+                    style={{ border: errors.date ? "1px solid red" : "" }}
                   />
                   <span className="error-message">{errors.date}</span>
                 </div>
                 <Select
-                value={status} onChange={this.handleChangeStatus}
-                errors={errors.status}
+                  value={status}
+                  onChange={this.handleChangeStatus}
+                  errors={errors.status}
                 />
               </div>
               <div className="modal-footer">
                 <ButtonAdd
-                onClick={this.handleSubmit}
-                addNewTodoList = {() =>this.addNewTodoList()}
+                  onClick={this.handleSubmit}
+                  addNewTodoList={() => this.addNewTodoList()}
                 />
               </div>
             </div>
@@ -176,7 +170,4 @@ class Modal extends React.Component {
   }
 }
 
-
-
 export default Modal;
-
