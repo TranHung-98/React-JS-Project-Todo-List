@@ -12,6 +12,9 @@ $text-color: #ffffff;
 * {
   outline: none;
   border: none;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 .app#root {
@@ -24,6 +27,9 @@ $text-color: #ffffff;
   .empty-data {
     font-size: 1.6rem;
     color: #3a3ff2;
+  }
+  .height--home {
+    height: 80vh;
   }
 }
 
@@ -116,7 +122,7 @@ button.text-color.bg-success.border-radius {
   color: #61dafb;
 }
 
-.navbar {
+.navbar-todo {
   margin: 0 auto;
   @extend .App-header;
   padding-bottom: 20px;
@@ -136,16 +142,6 @@ button.text-color.bg-success.border-radius {
   background-color: #f1f1f1;
 }
 
-span {
-  width: 100%;
-}
-
-label {
-  display: block;
-  margin: 5px 0;
-  margin-top: 0;
-}
-
 .modal {
   top: 0;
   display: flex;
@@ -155,6 +151,7 @@ label {
   position: absolute;
   align-items: center;
   justify-content: center;
+  background-color: #fff3ff;
   .modal-content {
     width: 500px;
     position: absolute;
@@ -180,10 +177,34 @@ label {
         }
       }
     }
+    .modal-body {
+      .form-group {
+        span {
+          width: 100%;
+        }
+        input[type="text"],
+        input[type="datetime-local"] {
+          width: 100%;
+          border: $border;
+          border-radius: 5px;
+          padding: 10px 8px;
+        }
+        label {
+          text-align: left;
+          display: block;
+          margin: 5px 0;
+          margin-top: 0;
+        }
+      }
+    }
     .modal-footer {
       text-align: center;
     }
   }
+}
+
+.Toastify__toast-container--top-right {
+  top: 5em !important;
 }
 
 .form-control {
@@ -196,14 +217,6 @@ h5.modal-title {
   margin: 10px 0;
   color: #333;
   font-size: 2rem;
-}
-
-input[type="text"],
-input[type="datetime-local"] {
-  width: 96.5555%;
-  border: $border;
-  border-radius: 5px;
-  padding: 10px 8px;
 }
 
 .btn-icon {

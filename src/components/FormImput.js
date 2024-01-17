@@ -1,6 +1,25 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class FormInput extends React.Component {
+  static propTypes = {
+    // other prop types
+    editedTodo: PropTypes.shape({
+      todo: PropTypes.string,
+      date: PropTypes.string,
+    }).isRequired,
+  };
+
+  handleSaveTodo = (editedTodo) => {
+    this.setState({
+      editedTodo: editedTodo,
+    });
+  };
+
+  handleInputChange = (field, value) => {
+    const { editTodo, editedTodo } = this.props;
+    editTodo({ ...editedTodo, [field]: value });
+  };
   render() {
     const {
       title,
@@ -17,13 +36,12 @@ class FormInput extends React.Component {
 
     return (
       <div
-        className={`bg-white flex ${
-          status === "1"
-            ? "bg-light"
-            : status === "2"
+        className={`bg-white flex ${status === "1"
+          ? "bg-light"
+          : status === "2"
             ? "bg-warning"
             : "bg-white"
-        }`}
+          }`}
       >
         <div className="flex fix">
           <input
@@ -39,9 +57,12 @@ class FormInput extends React.Component {
                   <input
                     type="text"
                     className="form-control"
-                    value={editedTodo.title}
+                    value={editTodo.todo}
+                    // onChange={(e) =>
+                    //   editTodo({ ...editedTodo, todo: e.target.value })
+                    // }
                     onChange={(e) =>
-                      editTodo({ ...editedTodo, title: e.target.value })
+                      this.handleInputChange("todo", e.target.value)
                     }
                   />
                 </div>
@@ -49,9 +70,12 @@ class FormInput extends React.Component {
                   <input
                     type="datetime-local"
                     className="form-control"
-                    value={editedTodo.date}
+                    value={editTodo.date}
+                    // onChange={(e) =>
+                    //   editTodo({ ...editedTodo, date: e.target.value })
+                    // }
                     onChange={(e) =>
-                      editTodo({ ...editedTodo, date: e.target.value })
+                      this.handleInputChange("date", e.target.value)
                     }
                   />
                 </div>
@@ -76,7 +100,11 @@ class FormInput extends React.Component {
           </button>
           {isEditing && editedTodo.id === id ? (
             <>
-              <button type="button" className="btn-icon">
+              <button
+                type="button"
+                className="btn-icon"
+                onClick={() => this.handleSaveTodo(editedTodo)}
+              >
                 <i className="fa-solid fa-download"></i>
               </button>
             </>

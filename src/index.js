@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './views/App';
 import reportWebVitals from './reportWebVitals';
 import './style/global.scss'
-import Modal from './components/modal';
 
 
 const root = ReactDOM.createRoot(document.querySelector(".app#root"));

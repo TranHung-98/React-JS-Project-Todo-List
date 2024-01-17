@@ -88,16 +88,16 @@ class Modal extends React.Component {
       })
         .then((response) => response.json())
         .then((data) => {
-          let formattedDate = new Date(data.date).toLocaleString("en-US", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          });
+          // let formattedDate = new Date(data.date).toLocaleString("en-US", {
+          //   day: "2-digit",
+          //   month: "2-digit",
+          //   year: "numeric",
+          //   hour: "2-digit",
+          //   minute: "2-digit",
+          //   hour12: true,
+          // });
 
-          data.date = formattedDate;
+          // data.date = formattedDate;
           this.props.addNewTodoToList(data);
           toast.success("Add Successfully!");
         })
