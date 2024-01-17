@@ -1,4 +1,4 @@
-import "./App.scss";
+import '../style/App.scss';
 import React, { Component } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/navbar";

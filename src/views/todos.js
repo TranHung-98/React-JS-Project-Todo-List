@@ -1,4 +1,4 @@
-import "./App.scss";
+import "../style/App.scss";
 import logo from "./logo.svg";
 import Modal from "../components/modal";
 import { Button, ButtonDelete, ButtonSelectAll } from "../components/button";
