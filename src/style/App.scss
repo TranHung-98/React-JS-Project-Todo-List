@@ -258,6 +258,30 @@ h5.modal-title {
   }
 }
 
+.list-user-table {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  table,
+  th,
+  td {
+    color: #f1f1f1;
+    padding: 10px 5px;
+    border: 1px solid gray;
+    border-collapse: collapse;
+  }
+  table {
+    width: 100%;
+    caption {
+      padding: 15px;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+}
+
 div.text-left {
   text-align: left;
 }

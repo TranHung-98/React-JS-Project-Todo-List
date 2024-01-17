@@ -6,22 +6,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Todo from "./todos";
 import { Home } from "./home";
 import About from "./adout";
+import ListUser from '../components/user/list-user';
 
-
-
-/**
- * 2 component:
- *  1. class cmponent
- *  2. function component (
- *  + function App() {}
- *  + cont App = () => {}
- *  ,arrow)
- * Compponent là 1 function và class
- */
 
 class App extends Component {
   render() {
-
     return (
       <>
         <BrowserRouter>
@@ -31,6 +20,7 @@ class App extends Component {
               <Route path="/" exact element={<Home />}></Route>
               <Route path="/about" element={<About />}></Route>
               <Route path="/todo" element={<Todo />}></Route>
+              <Route path="/user" element={<ListUser />}></Route>
             </Routes>
           </div>
         </BrowserRouter>

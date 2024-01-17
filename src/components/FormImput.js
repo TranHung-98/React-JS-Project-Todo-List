@@ -20,6 +20,7 @@ class FormInput extends React.Component {
     const { editTodo, editedTodo } = this.props;
     editTodo({ ...editedTodo, [field]: value });
   };
+
   render() {
     const {
       title,

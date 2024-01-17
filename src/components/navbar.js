@@ -26,6 +26,12 @@ class Navbar extends React.Component {
           }
           to="/todo">Todos
         </NavLink>
+        <NavLink
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+          to="/user">
+          Users</NavLink>
       </div>
     )
   }
