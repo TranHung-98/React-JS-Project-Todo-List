@@ -259,11 +259,12 @@ h5.modal-title {
 }
 
 .list-user-table {
-  width: 80%;
+  width: 20%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   table,
   th,
   td {
@@ -280,6 +281,14 @@ h5.modal-title {
       font-weight: 600;
     }
   }
+}
+
+.detail-user {
+  width: 45%;
+}
+
+button.m-2 {
+  margin: 10px;
 }
 
 div.text-left {

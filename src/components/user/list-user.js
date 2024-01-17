@@ -1,8 +1,9 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
+import logo from "../../views/logo.svg";
+import { withRouter, Link } from "react-router-dom";
 
 class ListUser extends React.Component {
-
   state = {
     listUsers: [],
   };
@@ -17,22 +18,24 @@ class ListUser extends React.Component {
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
+  }
 
-  };
+  handleViewDetailUser = (user) => {
+    this.props.history.push(`/user/${user.id}`);
+  }
 
   render() {
-    const { listUsers } = this.state
+    const { listUsers } = this.state;
+
     return (
       <div className="list-user-table">
+        <img src={logo} className="App-logo" alt="logo" />
         <table>
           <caption>List Users</caption>
           <thead>
             <tr>
               <th>ID</th>
-              <th>Firstname</th>
-              <th>Lastname</th>
-              <th>Email</th>
-              <th>Image</th>
+              <th>Full Name</th>
             </tr>
           </thead>
           <tbody>
@@ -40,25 +43,22 @@ class ListUser extends React.Component {
               listUsers.map((user, index) => (
                 <tr key={index}>
                   <td>{user.id}</td>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <img src={user.avatar} alt={`User ${user.id}`} />
+                  <td onClick={this.handleViewDetailUser(user)}>
+                    {/* {user.first_name} {user.last_name} */}
+                    <Link className="text-color" to={{ pathname: `/user/${user.id}` }}>{`${user.first_name} ${user.last_name}`}</Link>
                   </td>
                 </tr>
               ))
             ) : (
               <tr className="text-center">
-                <td colSpan="6">No Data!</td>
+                <td colSpan="2">No Data!</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-    )
+    );
   }
-
 }
 
-export default ListUser;
+export default withRouter(ListUser);
