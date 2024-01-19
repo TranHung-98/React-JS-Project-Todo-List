@@ -53,10 +53,16 @@ export class ButtonDelete extends React.Component {
   }
 }
 
-export function ButtonSelectAll() {
+export function ButtonSelectAll({ onClick }) {
   return (
-    <button type="button" className="text-color bg-success border-radius">
-      Select All
+    <button
+      type="button"
+      className="text-color bg-success border-radius"
+      onClick={() => {
+        onClick();
+      }}
+    >
+      Select  <i className="fa-solid fa-circle-check"></i> / <i className="fa-solid fa-circle-xmark"></i>
     </button>
   );
 }

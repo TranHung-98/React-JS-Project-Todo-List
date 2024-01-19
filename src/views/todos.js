@@ -116,6 +116,7 @@ class Todo extends Component {
     this.deleteATodo(todo);
   };
 
+
   handleCheckedOnEnableRemove = (id) => {
     this.setState((prevState) => {
       const checkedItems = { ...prevState.checkedItems };
@@ -128,6 +129,13 @@ class Todo extends Component {
 
       return { checkedItems };
     });
+  };
+
+
+  handleSeleckAllChecked = () => {
+    this.setState((prevState) => ({
+      allChecked: !prevState.allChecked,
+    }));
   };
 
   // =================  Delete by id  call  ================= //
@@ -151,7 +159,7 @@ class Todo extends Component {
   };
 
   render() {
-    const { todoData, show, filter, checkedItems, showEdit } =
+    const { todoData, show, filter, checkedItems, showEdit, allChecked } =
       this.state;
 
     return (
@@ -163,11 +171,13 @@ class Todo extends Component {
         <nav className="d-flex navbar-todo">
           <div>
             <Button onClick={this.handleAddTaskClick} />
-            <ButtonSelectAll />
           </div>
           <div className="d-flex w-20">
             <div className="">
-              <ButtonDelete />
+              <ButtonSelectAll
+                onClick={this.handleSeleckAllChecked}
+                onSelectAll={this.handleSelectAll}
+              />
             </div>
             <SelectFilter value={filter} onChange={this.handleChangeFilter} />
           </div>
@@ -189,6 +199,7 @@ class Todo extends Component {
                     this.handleCheckedOnEnableRemove(todoItem.id)
                   }
                   editTodo={() => this.handleEditTodo(todoItem)}
+                  allChecked={allChecked}
                 />
               ))
             ) : (

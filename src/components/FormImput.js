@@ -11,7 +11,8 @@ class FormInput extends React.Component {
       onClickDelete,
       checked,
       onCheckChange,
-      editTodo
+      editTodo,
+      allChecked
     } = this.props;
 
     return (
@@ -27,7 +28,7 @@ class FormInput extends React.Component {
           <input
             type="checkbox"
             value={id}
-            checked={checked}
+            checked={allChecked || checked}
             onChange={onCheckChange}
           />
           <div className="text-left todo-show">
@@ -40,7 +41,7 @@ class FormInput extends React.Component {
           <button
             type="button"
             className="btn-icon"
-            disabled={!checked}
+            disabled={!checked && !allChecked}
             onClick={onClickDelete}
           >
             <i className="fa-solid fa-trash"></i>
