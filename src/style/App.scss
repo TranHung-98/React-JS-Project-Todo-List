@@ -151,7 +151,7 @@ button.text-color.bg-success.border-radius {
   position: absolute;
   align-items: center;
   justify-content: center;
-  background-color: #fff3ff;
+  background-color: rgb(255 255 255 / 10%);
   .modal-content {
     width: 500px;
     position: absolute;
@@ -389,9 +389,18 @@ button.Toastify__close-button.Toastify__close-button--light {
 
 .error-message {
   color: red;
+  text-align: left;
   display: inline-block;
 }
 
 .has-error {
   border: 1px solid red;
+}
+
+a.m-2.come-back {
+  margin: 20px;
+  display: block;
+  background-color: #0d6efd;
+  border-radius: 5px;
+  padding: 10px 15px;
 }

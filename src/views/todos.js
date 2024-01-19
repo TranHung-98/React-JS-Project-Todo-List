@@ -1,12 +1,13 @@
 import "../style/App.scss";
 import logo from "./logo.svg";
-import Modal from "../components/modal";
+import Modal, { ModalEdit } from "../components/modal";
 import { Button, ButtonDelete, ButtonSelectAll } from "../components/button";
 import { SelectFilter } from "../components/Select";
 import FormInput from "../components/FormImput";
 import React, { Component } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 
 /**
@@ -23,6 +24,7 @@ class Todo extends Component {
   state = {
     todoData: [],
     show: false,
+    showEdit: false,
     allChecked: false,
     isDeleteEnabled: false,
     filter: "",
@@ -39,25 +41,46 @@ class Todo extends Component {
   };
 
   handleEditTodo = (todo) => {
-    console.log("handleEditTodo >>>>>>>>", todo);
+
+    const formattedDate = new Date(todo.date).toISOString().slice(0, -8);
+    const todoWithFormattedDate = { ...todo, date: formattedDate };
+
     this.setState({
-      editedTodo: { ...todo, todo },
-      isEditing: true,
+      showEdit: true,
+      editedTodo: todoWithFormattedDate,
+    })
+  };
+
+  handleEditSubmit = (updatedTodo) => {
+    // Update the todoData array with the editedTodo
+    const updatedTodoData = this.state.todoData.map((todo) =>
+      todo.id === updatedTodo.id ? updatedTodo : todo
+    );
+
+    const formattedTodoData = updatedTodoData.map((todoItem) => ({
+      ...todoItem,
+      date: new Date(todoItem.date).toLocaleString("en-US", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
+    }));
+
+    this.setState({
+      todoData: formattedTodoData,
     });
   };
 
   // ================= Call Add data ================= //
-  componentDidMount = () => {
-    fetch("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
+  async componentDidMount() {
+    try {
+      let response = await axios.get("https://658af354ba789a9622383629.mockapi.io/api/ToDo-List");
 
-      .then((data) => {
-        const formattedTodoData = data.map((todoItem) => ({
+      if (response.data && response.data.length > 0) {
+        const formattedTodoData = response.data.map((todoItem) => ({
           ...todoItem,
           date: new Date(todoItem.date).toLocaleString("en-US", {
             day: "2-digit",
@@ -71,18 +94,17 @@ class Todo extends Component {
 
         this.setState({
           todoData: formattedTodoData,
-          // todoData: data,
         });
-      })
-
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }; // End call add
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }//End Add
 
   handleAddTaskClick = () => {
     this.setState({ show: true });
   };
+
 
   handleChangeFilter = (event) => {
     this.setState({
@@ -116,25 +138,20 @@ class Todo extends Component {
       todoData: todoList.filter((item) => item.id !== todo.id),
     });
 
-    fetch(
-      `https://658af354ba789a9622383629.mockapi.io/api/ToDo-List/${todo.id}`,
-      {
-        method: "DELETE",
-      }
+    axios.delete(
+      `https://658af354ba789a9622383629.mockapi.io/api/ToDo-List/${todo.id}`
     )
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
         toast.success("Delete Successfully!");
       })
       .catch((error) => {
+        console.error('Error deleting todo:', error);
         toast.error("Deletion unsuccessful!");
       });
-  }; // End Call delete
+  };
 
   render() {
-    const { todoData, show, filter, checkedItems, isEditing, editedTodo } =
+    const { todoData, show, filter, checkedItems, showEdit } =
       this.state;
 
     return (
@@ -172,8 +189,6 @@ class Todo extends Component {
                     this.handleCheckedOnEnableRemove(todoItem.id)
                   }
                   editTodo={() => this.handleEditTodo(todoItem)}
-                  isEditing={isEditing}
-                  editedTodo={editedTodo}
                 />
               ))
             ) : (
@@ -187,6 +202,15 @@ class Todo extends Component {
             addNewTodoToList={this.addNewTodoToList}
           />
         )}
+
+        {showEdit && (
+          <ModalEdit
+            onClose={() => this.setState({ showEdit: false })}
+            editedTodo={this.state.editedTodo}
+            onEditSubmit={this.handleEditSubmit}
+          />
+        )
+        }
         <ToastContainer
           position="top-right"
           autoClose={5000}

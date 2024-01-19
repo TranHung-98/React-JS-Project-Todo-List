@@ -28,6 +28,21 @@ export class ButtonAdd extends React.Component {
   }
 }
 
+export class ButtonEdit extends React.Component {
+  render() {
+    return (
+      <button
+        type="submit"
+        className="text-color btn-big bg-primary border-radius"
+        onClick={this.props.onClick}
+      >
+        Save
+      </button>
+    );
+  }
+}
+
+
 export class ButtonDelete extends React.Component {
   render() {
     return (

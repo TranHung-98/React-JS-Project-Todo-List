@@ -2,7 +2,7 @@ import '../style/App.scss';
 import React, { Component } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/navbar";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Todo from "./todos";
 import { Home } from "./home";
 import About from "./adout";
@@ -17,23 +17,13 @@ class App extends Component {
         <BrowserRouter>
           <div className="App ">
             <Navbar />
-            <Switch>
-              <Route path="/" exact >
-                <Home />
-              </Route>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/todo">
-                <Todo />
-              </Route>
-              <Route path="/user" exact>
-                <ListUser />
-              </Route>
-              <Route path="/user/:id" >
-                <DetailUser />
-              </Route>
-            </Switch>
+            <Routes>
+              <Route path="/" exact element={<Home />}> </Route>
+              <Route path="/about" element={<About />}> </Route>
+              <Route path="/todo" element={<Todo />}> </Route>
+              <Route path="/user" exact element={<ListUser />}> </Route>
+              <Route path="/user/:id" element={<DetailUser />}></Route>
+            </Routes>
           </div>
         </BrowserRouter>
       </>
