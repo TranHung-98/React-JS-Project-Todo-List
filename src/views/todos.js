@@ -22,16 +22,17 @@ import axios from 'axios';
 
 class Todo extends Component {
   state = {
-    todoData: [],
-    show: false,
-    showEdit: false,
-    allChecked: false,
-    isDeleteEnabled: false,
     filter: "",
-    checkedItems: {},
+    show: false,
+    todoData: [],
     editedTodo: {},
     isEditing: false,
+    showEdit: false,
+    allChecked: false,
+    checkedItems: {},
+    isDeleteEnabled: false,
   };
+
 
   // Tạo mới todolist k cần load trang
   addNewTodoToList = (newTodo) => {
@@ -116,27 +117,33 @@ class Todo extends Component {
     this.deleteATodo(todo);
   };
 
-
   handleCheckedOnEnableRemove = (id) => {
     this.setState((prevState) => {
-      const checkedItems = { ...prevState.checkedItems };
+      const checkedItems = { ...prevState.checkedItems, [id]: !prevState.checkedItems[id] };
 
-      if (prevState.checkedItems && prevState.checkedItems[id] !== undefined) {
-        checkedItems[id] = !prevState.checkedItems[id];
-      } else {
-        checkedItems[id] = true;
-      }
+      const totalItems = prevState.todoData.length;
+      const checkedCount = Object.values(checkedItems).filter(Boolean).length;
 
-      return { checkedItems };
+      const allChecked = checkedCount === totalItems;
+      const indeterminate = checkedCount > 0 && checkedCount < totalItems;
+
+      return { checkedItems, allChecked, indeterminate };
     });
   };
-
 
   handleSeleckAllChecked = () => {
     this.setState((prevState) => ({
       allChecked: !prevState.allChecked,
+      checkedItems: prevState.allChecked
+        ? {} // Uncheck all when toggling off
+        : prevState.todoData.reduce((items, todo) => {
+          items[todo.id] = true;
+          return items;
+        }, {}),
+      indeterminate: false, // Reset indeterminate state
     }));
   };
+
 
   // =================  Delete by id  call  ================= //
   deleteATodo = (todo) => {
@@ -162,6 +169,14 @@ class Todo extends Component {
     const { todoData, show, filter, checkedItems, showEdit, allChecked } =
       this.state;
 
+    const filteredTodoData = todoData.filter(todoItem => {
+      if (filter === "") {
+        return true;
+      } else {
+        return todoItem.status === filter;
+      }
+    });
+
     return (
       <>
         <header className="App-header">
@@ -176,7 +191,7 @@ class Todo extends Component {
             <div className="">
               <ButtonSelectAll
                 onClick={this.handleSeleckAllChecked}
-                onSelectAll={this.handleSelectAll}
+                indeterminate={this.state.indeterminate}
               />
             </div>
             <SelectFilter value={filter} onChange={this.handleChangeFilter} />
@@ -184,8 +199,8 @@ class Todo extends Component {
         </nav>
         <footer className="list-foocter border-radius">
           <div id="list">
-            {todoData.length > 0 && todoData ? (
-              todoData.map((todoItem, index) => (
+            {filteredTodoData.length > 0 && filteredTodoData ? (
+              filteredTodoData.map((todoItem, index) => (
                 <FormInput
                   key={todoItem.id}
                   id={todoItem.id}
