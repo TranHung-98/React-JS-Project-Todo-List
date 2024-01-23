@@ -1,14 +1,14 @@
 import axios from "axios";
 import React from "react";
 import logo from "../../views/logo.svg";
-import { Link } from "react-router-dom";
 import DetailUser from "./detailUser";
 
 
 class ListUser extends React.Component {
+
   state = {
     listUsers: [],
-    selectedUser: null,
+    selectedUser: false,
   };
 
   async componentDidMount() {
@@ -23,21 +23,30 @@ class ListUser extends React.Component {
     }
   }
 
-  handleUserClick = async (userId) => {
-    try {
-      let resp = await axios.get(`https://reqres.in/api/users/${userId}`);
+  handleUserClick = (selectedUser) => {
+    this.setState({
+      selectedUser: selectedUser,
+    });
+  };
 
-      this.setState({
-        selectedUser: resp && resp.data ? resp.data : null,
-      });
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      console.error("Axios error details:", error.response);
-    }
+  handleBackClick = () => {
+    this.setState({
+      selectedUser: null,
+    });
   };
 
   render() {
     const { listUsers, selectedUser } = this.state;
+
+    if (selectedUser) {
+      return (
+        <DetailUser
+          user={selectedUser}
+          onBackClick={this.handleBackClick}
+        />
+      );
+    }
+
     return (
       <div className="list-user-table">
         <img src={logo} className="App-logo" alt="logo" />
@@ -54,10 +63,11 @@ class ListUser extends React.Component {
               listUsers.map((user) => (
                 <tr key={user.id}>
                   <td>{user.id}</td>
-                  <td onClick={() => this.handleUserClick(user)}>
-                    <Link className="text-color" to={`/user/${user.id}`}>
-                      {`${user.first_name} ${user.last_name}`}
-                    </Link>
+                  <td
+                    onClick={() => this.handleUserClick(user)}
+                    className="cursor"
+                  >
+                    {`${user.first_name} ${user.last_name}`}
                   </td>
                 </tr>
               ))
@@ -68,13 +78,10 @@ class ListUser extends React.Component {
             )}
           </tbody>
         </table>
-        {selectedUser && <DetailUser user={selectedUser} />}
       </div>
     );
   }
 }
-
-
 
 export default ListUser;
 

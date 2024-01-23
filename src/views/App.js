@@ -7,7 +7,7 @@ import Todo from "./todos";
 import { Home } from "./home";
 import About from "./adout";
 import ListUser from '../components/user/list-user';
-import DetailUser from '../components/user/detailUser';
+import Covid19App from '../components/covid';
 
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
               <Route path="/about" element={<About />}> </Route>
               <Route path="/todo" element={<Todo />}> </Route>
               <Route path="/user" exact element={<ListUser />}> </Route>
-              <Route path="/user/:id" element={<DetailUser />}></Route>
+              <Route path="/covid" exact element={<Covid19App />}> </Route>
             </Routes>
           </div>
         </BrowserRouter>

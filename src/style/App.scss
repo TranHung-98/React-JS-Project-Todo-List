@@ -203,8 +203,25 @@ button.text-color.bg-success.border-radius {
   }
 }
 
+.list-user-table.list-redux-demo {
+  width: 50%;
+  .w-100 {
+    width: 100%;
+    .float-left {
+      position: relative;
+      top: 68px;
+      float: left;
+      margin: 10px;
+    }
+  }
+}
+
 .Toastify__toast-container--top-right {
   top: 5em !important;
+}
+
+td.cursor {
+  cursor: pointer;
 }
 
 .form-control {

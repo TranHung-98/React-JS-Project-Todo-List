@@ -19,6 +19,9 @@ class Navbar extends React.Component {
         <NavLink className={({ isActive, isPending }) =>
           isPending ? "pending" : isActive ? "active" : ""
         } to="/user"> Users  </NavLink>
+        <NavLink className={({ isActive, isPending }) =>
+          isPending ? "pending" : isActive ? "active" : ""
+        } to="/covid"> Covid  </NavLink>
       </div>
     )
   }
