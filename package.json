@@ -16,10 +16,11 @@
     "redux": "5.0.1",
     "redux-thunk": "^3.1.0",
     "sass": "^1.69.7",
+    "proxy": "http://localhost:8085",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --port 3001",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -12,16 +12,13 @@ class Navbar extends React.Component {
         } to="/">  Home </NavLink>
         <NavLink className={({ isActive, isPending }) =>
           isPending ? "pending" : isActive ? "active" : ""
-        } to="/about">  About  </NavLink>
+        } to="/about">Users</NavLink>
         <NavLink className={({ isActive, isPending }) =>
           isPending ? "pending" : isActive ? "active" : ""
         } to="/todo">Todos </NavLink>
         <NavLink className={({ isActive, isPending }) =>
           isPending ? "pending" : isActive ? "active" : ""
-        } to="/user"> Users  </NavLink>
-        <NavLink className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        } to="/covid"> Covid  </NavLink>
+        } to="/user"> Views Users </NavLink>
       </div>
     )
   }

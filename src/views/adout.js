@@ -3,9 +3,20 @@ import logo from "./logo.svg";
 import { connect } from "react-redux";
 import { deleteUser, createUser, getData } from "../store/action/actionRedux";
 import { ToastContainer } from "react-toastify";
-import { ModalEdit } from "../components/modal";
+import ModalEditRedux from "../components/modalEditRedux";
+
 
 class About extends Component {
+
+  state = {
+    showModalEdit: false,
+    editUserData: {
+      id: '',
+      username: '',
+      password: '',
+      email: '',
+    },
+  };
 
   componentDidMount() {
     this.props.getData();
@@ -19,13 +30,45 @@ class About extends Component {
     this.props.createUser();
   }
 
+  handleEditUser = (user) => {
+    this.setState({
+      showModalEdit: true,
+      editUserData: {
+        id: user.id,
+        username: user.username,
+        password: user.password,
+        email: user.email,
+      },
+    });
+  }
+
+
+  // Thực hiện khi đóng modal
+  handleCloseModalEdit = () => {
+    this.setState({
+      showModalEdit: false,
+      editUserData: {
+        id: '',
+        username: '',
+        password: '',
+        email: '',
+      },
+    });
+  }
+
+
   render() {
+
+    const { showModalEdit, editUserData } = this.state;
+    const myStyle = {
+      display: 'none'
+    };
     let listUser = this.props.dataRedux;
+
     return (
       <>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1>WELCOME TO ABOUT</h1>
         </header>
         <main>
           <div className="list-user-table list-redux-demo">
@@ -51,7 +94,7 @@ class About extends Component {
               </thead>
               <tbody>
                 {listUser && listUser.length > 0 ? (
-                  listUser.map((user) => (
+                  listUser.map((user, index) => (
                     <tr key={user.id}>
                       <td>{user.id}</td>
                       <td>
@@ -59,6 +102,7 @@ class About extends Component {
                       </td>
                       <td>{`${user.email}`}</td>
                       <td>{`${user.password}`}</td>
+                      <td style={myStyle}>{user.id}</td>
                       <td
                         className="cursor   "
                       >
@@ -69,7 +113,9 @@ class About extends Component {
                         >
                           <i className="fa-solid fa-trash"></i>
                         </button>
-                        <button type="button" className="btn-icon" >
+                        <button type="button" className="btn-icon"
+                          onClick={() => this.handleEditUser(user)}
+                        >
                           <i className="fa-solid fa-pen"></i>
                         </button>
                       </td>
@@ -82,12 +128,18 @@ class About extends Component {
                 )}
               </tbody>
             </table>
-
           </div>
         </main>
+        {showModalEdit && (
+          <ModalEditRedux
+            userData={editUserData}
+            userId={editUserData.id}
+            closeModalEdit={this.handleCloseModalEdit}
+          />
+        )}
         <ToastContainer
           position="top-right"
-          autoClose={5000}
+          autoClose={2000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

@@ -21,6 +21,19 @@ const rootReducer = (state = initState, action) => {
         ...state,
         users: action.payload
       };
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        users: state.users.map(user => {
+          if (user.id === action.payload.userId) {
+            return {
+              ...user,
+              ...action.payload.updatedUserData,
+            };
+          }
+          return user;
+        }),
+      };
     default:
       return state;
   }

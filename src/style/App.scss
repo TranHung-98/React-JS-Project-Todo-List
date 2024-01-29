@@ -142,6 +142,10 @@ button.text-color.bg-success.border-radius {
   background-color: #f1f1f1;
 }
 
+.modal.bg-none {
+  background-color: transparent;
+}
+
 .modal {
   top: 0;
   display: flex;
@@ -183,7 +187,9 @@ button.text-color.bg-success.border-radius {
           width: 100%;
         }
         input[type="text"],
-        input[type="datetime-local"] {
+        input[type="datetime-local"],
+        input[type="email"],
+        input[type="password"] {
           width: 100%;
           border: $border;
           border-radius: 5px;
