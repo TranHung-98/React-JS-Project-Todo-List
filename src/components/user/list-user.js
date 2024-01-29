@@ -51,7 +51,7 @@ class ListUser extends React.Component {
       <div className="list-user-table">
         <img src={logo} className="App-logo" alt="logo" />
         <table>
-          <caption>List Users</caption>
+          <caption>List User Name</caption>
           <thead>
             <tr>
               <th>ID</th>
